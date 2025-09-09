@@ -1,25 +1,28 @@
 
-const workDuration = 25 * 60; // 25 minutes
-const timeLeft  = workDuration;
-const timer = null;
+const timeDisplay = document.getElementById('timer')
 
+const workTime = 25 * 60; // 25 minutes
+let workLeft = workTime;
+let timer=null;
 function startTimer(){
-    timer = setInterval(updateTimer,1000)
-    if(timeLeft>0){
-        timeLeft--;
-        updateTimer();
-    }
-    else{
-        clearInterval(timer);
-        updateTimer();
-        startTimer();
-    }
+    timer =setInterval(()=>{
+        if(workLeft>0){
+            workLeft--;
+            updateTimer();
+        }else{
+            clearInterval(timer);
+            timer=null;
+            updateTimer();
+            startTimer();
+            
+        }
+    },1000)
 }
 
 function updateTimer(){
-    const minutes = String(Math.floor(timeLeft /60)).padStart(2,'0');
-    const seconds = String (timeLeft % 60).padStart(2,'0');
-    document.getElementById("timer").innerText = `${minutes}:${seconds}`;
+    const minutes = String(Math.floor(workLeft/60)).padStart(2,'0');
+    const seconds = String(workLeft%60).padStart(2,'0');
+    timeDisplay.textContent = `${minutes}:${seconds}`;
 }
 
 startTimer();
